@@ -54,15 +54,11 @@ class Attention_block(nn.Module):
         self.relu = nn.ReLU(inplace=True)
 
     def forward(self, g, x):
-        # 下采样的gating signal 卷积
         g1 = self.W_g(g)
-        # 上采样的 l 卷积
         x1 = self.W_x(x)
         # concat + relu
         psi = self.relu(g1 + x1)
-        # channel 减为1，并Sigmoid,得到权重矩阵
         psi = self.psi(psi)
-        # 返回加权的 x
         return x * psi
 
 
