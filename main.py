@@ -68,7 +68,6 @@ def getModel(args):
     if args.arch == 'myChannelUnet':
         model = myChannelUnet(3,3).to(device)
     if args.arch == 'fcn8s':
-        assert args.dataset !='esophagus' ,"fcn8s模型不能用于数据集esophagus，因为esophagus数据集为80x80，经过5次的2倍降采样后剩下2.5x2.5，分辨率不能为小数，建议把数据集resize成更高的分辨率再用于fcn"
         model = get_fcn8s(3).to(device)
     if args.arch == 'cenet':
         from cenet import CE_Net_
@@ -77,7 +76,7 @@ def getModel(args):
 
 def getDataset(args):
     train_dataloaders, val_dataloaders ,test_dataloaders= None,None,None
-    if args.dataset =='liver':  #E:\代码\new\u_net_liver-master\data\liver\val
+    if args.dataset =='liver':  
         train_dataset = LiverDataset(r"train", transform=x_transforms, target_transform=y_transforms)
         train_dataloaders = DataLoader(train_dataset, batch_size=args.batch_size)
         val_dataset = LiverDataset(r"val", transform=x_transforms, target_transform=y_transforms)
@@ -133,24 +132,23 @@ def getDataset(args):
 def val(model,best_iou,val_dataloaders):
     model= model.eval()
     with torch.no_grad():
-        i=0   #验证集中第i张图
+        i=0 
         miou_total = 0
         hd_total = 0
         dice_total = 0
-        num = len(val_dataloaders)  #验证集图片的总数
-        #print(num)
+        num = len(val_dataloaders)  
         for x, _,pic,mask in val_dataloaders:
             x = x.to(device)
             y = model(x)
             if args.deepsupervision:
                 img_y = torch.squeeze(y[-1]).cpu().numpy()
             else:
-                img_y = torch.squeeze(y).cpu().numpy()  #输入损失函数之前要把预测图变成numpy格式，且为了跟训练图对应，要额外加多一维表示batchsize
+                img_y = torch.squeeze(y).cpu().numpy()  
 
             hd_total += get_hd(mask[0], img_y)
-            miou_total += get_iou(mask[0],img_y)  #获取当前预测图的miou，并加到总miou中
+            miou_total += get_iou(mask[0],img_y) 
             dice_total += get_dice(mask[0],img_y)
-            if i < num:i+=1   #处理验证集下一张图
+            if i < num:i+=1  
         aver_iou = miou_total / num
         aver_hd = hd_total / num
         aver_dice = dice_total/num
@@ -232,9 +230,9 @@ def test(val_dataloaders,save_predict=False):
     model.load_state_dict(torch.load(r'./saved_model/'+str(args.arch)+'_'+str(args.batch_size)+'_'+str(args.dataset)+'_'+str(args.epoch)+'.pth', map_location='cpu'))  # 载入训练好的模型
     model.eval()
 
-    #plt.ion() #开启动态模式
+
     with torch.no_grad():
-        i=0   #验证集中第i张图
+        i=0  
         miou_total = 0
         hd_total = 0
         dice_total = 0
@@ -245,8 +243,7 @@ def test(val_dataloaders,save_predict=False):
             if args.deepsupervision:
                 predict = torch.squeeze(predict[-1]).cpu().numpy()
             else:
-                predict = torch.squeeze(predict).cpu().numpy()  #输入损失函数之前要把预测图变成numpy格式，且为了跟训练图对应，要额外加多一维表示batchsize
-            #img_y = torch.squeeze(y).cpu().numpy()  #输入损失函数之前要把预测图变成numpy格式，且为了跟训练图对应，要额外加多一维表示batchsize
+                predict = torch.squeeze(predict).cpu().numpy() 
 
             iou = get_iou(mask_path[0],predict)
             miou_total += iou  #获取当前预测图的miou，并加到总miou中
@@ -287,7 +284,6 @@ if __name__ =="__main__":
         transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])  # ->[-1,1]
     ])
 
-    # mask只需要转换为tensor
     y_transforms = transforms.ToTensor()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
