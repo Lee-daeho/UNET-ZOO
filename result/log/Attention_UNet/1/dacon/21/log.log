@@ -1,0 +1,213 @@
+2021-07-01 13:21:09,246:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:22:24,641:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:22:28,841:INFO:Epoch 0/20
+2021-07-01 13:23:49,178:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:23:53,335:INFO:Epoch 0/20
+2021-07-01 13:24:26,214:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:24:30,270:INFO:Epoch 0/20
+2021-07-01 13:28:49,558:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:28:54,104:INFO:Epoch 0/20
+2021-07-01 13:29:19,834:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:29:23,892:INFO:Epoch 0/20
+2021-07-01 13:30:53,891:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:30:57,916:INFO:Epoch 0/20
+2021-07-01 13:31:20,881:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:31:24,812:INFO:Epoch 0/20
+2021-07-01 13:36:09,968:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 13:36:14,055:INFO:Epoch 0/20
+2021-07-01 14:09:58,643:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:10:02,703:INFO:Epoch 0/20
+2021-07-01 14:12:00,668:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:12:04,729:INFO:Epoch 0/20
+2021-07-01 14:13:15,610:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:13:19,644:INFO:Epoch 0/20
+2021-07-01 14:14:16,798:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:14:20,817:INFO:Epoch 0/20
+2021-07-01 14:16:40,297:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:16:44,424:INFO:Epoch 0/20
+2021-07-01 14:16:57,818:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:17:01,924:INFO:Epoch 0/20
+2021-07-01 14:21:12,051:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:21:16,625:INFO:Epoch 0/20
+2021-07-01 14:23:33,549:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:23:37,616:INFO:Epoch 0/20
+2021-07-01 14:26:41,997:INFO:
+=======
+models:Attention_UNet,
+epoch:21,
+batch size:1
+dataset:dacon
+========
+2021-07-01 14:26:46,061:INFO:Epoch 0/20
+2021-07-01 14:26:46,975:INFO:1/155740,train_loss:0.729
+2021-07-01 14:26:47,035:INFO:2/155740,train_loss:0.695
+2021-07-01 14:26:47,084:INFO:3/155740,train_loss:0.646
+2021-07-01 14:26:47,132:INFO:4/155740,train_loss:0.594
+2021-07-01 14:26:47,181:INFO:5/155740,train_loss:0.560
+2021-07-01 14:26:47,232:INFO:6/155740,train_loss:0.625
+2021-07-01 14:26:47,282:INFO:7/155740,train_loss:0.568
+2021-07-01 14:26:47,333:INFO:8/155740,train_loss:0.528
+2021-07-01 14:26:47,381:INFO:9/155740,train_loss:0.554
+2021-07-01 14:26:47,432:INFO:10/155740,train_loss:0.557
+2021-07-01 14:26:47,483:INFO:11/155740,train_loss:0.573
+2021-07-01 14:26:47,534:INFO:12/155740,train_loss:0.496
+2021-07-01 14:26:47,582:INFO:13/155740,train_loss:0.542
+2021-07-01 14:26:47,630:INFO:14/155740,train_loss:0.485
+2021-07-01 14:26:47,679:INFO:15/155740,train_loss:0.648
+2021-07-01 14:26:47,727:INFO:16/155740,train_loss:0.432
+2021-07-01 14:26:47,775:INFO:17/155740,train_loss:0.540
+2021-07-01 14:26:47,827:INFO:18/155740,train_loss:0.429
+2021-07-01 14:26:47,878:INFO:19/155740,train_loss:0.509
+2021-07-01 14:26:47,926:INFO:20/155740,train_loss:0.399
+2021-07-01 14:26:47,974:INFO:21/155740,train_loss:0.466
+2021-07-01 14:26:48,023:INFO:22/155740,train_loss:0.412
+2021-07-01 14:26:48,073:INFO:23/155740,train_loss:0.375
+2021-07-01 14:26:48,124:INFO:24/155740,train_loss:0.374
+2021-07-01 14:26:48,174:INFO:25/155740,train_loss:0.483
+2021-07-01 14:26:48,224:INFO:26/155740,train_loss:0.421
+2021-07-01 14:26:48,275:INFO:27/155740,train_loss:0.479
+2021-07-01 14:26:48,323:INFO:28/155740,train_loss:0.343
+2021-07-01 14:26:48,374:INFO:29/155740,train_loss:0.356
+2021-07-01 14:26:48,428:INFO:30/155740,train_loss:0.334
+2021-07-01 14:26:48,479:INFO:31/155740,train_loss:0.946
+2021-07-01 14:26:48,527:INFO:32/155740,train_loss:0.398
+2021-07-01 14:26:48,586:INFO:33/155740,train_loss:0.341
+2021-07-01 14:26:48,637:INFO:34/155740,train_loss:0.320
+2021-07-01 14:26:48,687:INFO:35/155740,train_loss:0.559
+2021-07-01 14:26:48,736:INFO:36/155740,train_loss:0.342
+2021-07-01 14:26:48,785:INFO:37/155740,train_loss:0.443
+2021-07-01 14:26:48,837:INFO:38/155740,train_loss:0.327
+2021-07-01 14:26:48,888:INFO:39/155740,train_loss:0.337
+2021-07-01 14:26:48,939:INFO:40/155740,train_loss:0.307
+2021-07-01 14:26:48,990:INFO:41/155740,train_loss:0.583
+2021-07-01 14:26:49,041:INFO:42/155740,train_loss:0.291
+2021-07-01 14:26:49,093:INFO:43/155740,train_loss:0.516
+2021-07-01 14:26:49,141:INFO:44/155740,train_loss:0.521
+2021-07-01 14:26:49,193:INFO:45/155740,train_loss:0.317
+2021-07-01 14:26:49,244:INFO:46/155740,train_loss:0.280
+2021-07-01 14:26:49,296:INFO:47/155740,train_loss:1.379
+2021-07-01 14:26:49,344:INFO:48/155740,train_loss:1.395
+2021-07-01 14:26:49,397:INFO:49/155740,train_loss:0.367
+2021-07-01 14:26:49,445:INFO:50/155740,train_loss:0.454
+2021-07-01 14:26:49,502:INFO:51/155740,train_loss:0.376
+2021-07-01 14:26:49,552:INFO:52/155740,train_loss:0.822
+2021-07-01 14:26:49,601:INFO:53/155740,train_loss:0.497
+2021-07-01 14:26:49,652:INFO:54/155740,train_loss:0.398
+2021-07-01 14:26:49,700:INFO:55/155740,train_loss:0.579
+2021-07-01 14:26:49,751:INFO:56/155740,train_loss:0.291
+2021-07-01 14:26:49,800:INFO:57/155740,train_loss:0.564
+2021-07-01 14:26:49,851:INFO:58/155740,train_loss:0.384
+2021-07-01 14:26:49,902:INFO:59/155740,train_loss:0.314
+2021-07-01 14:26:49,953:INFO:60/155740,train_loss:0.621
+2021-07-01 14:26:50,001:INFO:61/155740,train_loss:0.605
+2021-07-01 14:26:50,052:INFO:62/155740,train_loss:0.291
+2021-07-01 14:26:50,101:INFO:63/155740,train_loss:0.274
+2021-07-01 14:26:50,153:INFO:64/155740,train_loss:0.286
+2021-07-01 14:26:50,205:INFO:65/155740,train_loss:0.358
+2021-07-01 14:26:50,253:INFO:66/155740,train_loss:0.264
+2021-07-01 14:26:50,305:INFO:67/155740,train_loss:0.487
+2021-07-01 14:26:50,361:INFO:68/155740,train_loss:0.591
+2021-07-01 14:26:50,412:INFO:69/155740,train_loss:0.790
+2021-07-01 14:26:50,461:INFO:70/155740,train_loss:0.288

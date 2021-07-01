@@ -127,6 +127,11 @@ def getDataset(args):
         train_dataset = DaconDataset('train')
         val_dataset = DaconDataset('val')
         test_dataset = DaconDataset('val')
+        
+        train_dataloaders = DataLoader(train_dataset, batch_size=args.batch_size)
+        val_dataloaders = DataLoader(val_dataset, batch_size=1)
+        test_dataloaders = DataLoader(test_dataset, batch_size=1)
+        
     return train_dataloaders,val_dataloaders,test_dataloaders
 
 def val(model,best_iou,val_dataloaders):
@@ -227,7 +232,7 @@ def test(val_dataloaders,save_predict=False):
             os.makedirs(dir)
         else:
             print('dir already exist!')
-    model.load_state_dict(torch.load(r'./saved_model/'+str(args.arch)+'_'+str(args.batch_size)+'_'+str(args.dataset)+'_'+str(args.epoch)+'.pth', map_location='cpu'))  # 载入训练好的模型
+    model.load_state_dict(torch.load(r'./saved_model/'+str(args.arch)+'_'+str(args.batch_size)+'_'+str(args.dataset)+'_'+str(args.epoch)+'.pth', map_location='cpu'))
     model.eval()
 
 
@@ -236,7 +241,7 @@ def test(val_dataloaders,save_predict=False):
         miou_total = 0
         hd_total = 0
         dice_total = 0
-        num = len(val_dataloaders)  #验证集图片的总数
+        num = len(val_dataloaders) 
         for pic,_,pic_path,mask_path in val_dataloaders:
             pic = pic.to(device)
             predict = model(pic)
@@ -246,7 +251,7 @@ def test(val_dataloaders,save_predict=False):
                 predict = torch.squeeze(predict).cpu().numpy() 
 
             iou = get_iou(mask_path[0],predict)
-            miou_total += iou  #获取当前预测图的miou，并加到总miou中
+            miou_total += iou
             hd_total += get_hd(mask_path[0], predict)
             dice = get_dice(mask_path[0],predict)
             dice_total += dice
@@ -272,7 +277,7 @@ def test(val_dataloaders,save_predict=False):
                     plt.savefig(dir +'/'+ mask_path[0].split('\\')[-1])
             #plt.pause(0.01)
             print('iou={},dice={}'.format(iou,dice))
-            if i < num:i+=1   #处理验证集下一张图
+            if i < num:i+=1   
         #plt.show()
         print('Miou=%f,aver_hd=%f,dv=%f' % (miou_total/num,hd_total/num,dice_total/num))
         logging.info('Miou=%f,aver_hd=%f,dv=%f' % (miou_total/num,hd_total/num,dice_total/num))

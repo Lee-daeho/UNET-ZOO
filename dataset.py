@@ -14,11 +14,11 @@ from torchvision import transforms
 class DaconDataset(data.Dataset):
     def __init__(self, state, transform=None, target_trasnform=None):
         self.state = state
-        self.train_img_root = "/data1/dacon/data/train_input_img_256"
-        self.train_label_root = "/data1/dacon/data/train_label_img_256"
+        self.train_img_root = "/home/dacon/data/train_input_img_256"
+        self.train_label_root = "/home/dacon/data/train_label_img_256"
 
-        self.val_img_root = "/data1/dacon/data/val_input_img_256"
-        self.val_label_root = "/data1/dacon/data/val_label_img_256"
+        self.val_img_root = "/home/dacon/data/val_input_img_256"
+        self.val_label_root = "/home/dacon/data/val_label_img_256"
 
         self.imgs, self.labels = self.getDataPath()
         self.transform = transform
@@ -42,8 +42,8 @@ class DaconDataset(data.Dataset):
             label_root = self.val_label_root
 
         for name in os.listdir(img_root):
-            img = os.path.join(img_root, "{}.npy".format(name))
-            label = os.path.join(label_root, "{}.npy".format(name))
+            img = os.path.join(img_root, name)
+            label = os.path.join(label_root, name)
 
             imgs.append(img)
             labels.append(label)
@@ -57,13 +57,20 @@ class DaconDataset(data.Dataset):
         pic_path = self.imgs[idx]
         label_path = self.labels[idx]
 
-        img = Image.fromarray(np.load(pic_path))
-        label = Image.fromarray(np.load(label_path))
+        img = Image.fromarray(np.uint8(np.load(pic_path))).convert('RGB')
+        label = Image.fromarray(np.uint8(np.load(label_path))).convert('RGB')
+        
+        if self.transform is not None:
+            img = self.transform(img)
+        else:
+            img = self.base_transform(img)
+        
+        if self.target_transform is not None:
+            label = self.target_transform(label)
+        else:
+            label = self.base_transform(label)
 
-        img = self.transform(img) if not self.transform else self.base_transform(img)
-        label = self.target_transform(label) if not self.target_transform else self.base_transform(label)
-
-        return img, label
+        return img, label, pic_path, label_path
 
 
 class LiverDataset(data.Dataset):
@@ -87,7 +94,7 @@ class LiverDataset(data.Dataset):
 
         pics = []
         masks = []
-        n = len(os.listdir(root)) // 2  # 因为数据集中一套训练数据包含有训练图和mask图，所以要除2
+        n = len(os.listdir(root)) // 2  # ?�为?�据?�中一套�?练数??��?�有�?��?�和mask?�，?�以要??
         for i in range(n):
             img = os.path.join(root, "%03d.png" % i)  # liver is %03d
             mask = os.path.join(root, "%03d_mask.png" % i)
@@ -133,7 +140,7 @@ class esophagusDataset(data.Dataset):
             root = self.test_root
         pics = []
         masks = []
-        n = len(os.listdir(root)) // 2  # 因为数据集中一套训练数据包含有训练图和mask图，所以要除2
+        n = len(os.listdir(root)) // 2  # ?�为?�据?�中一套�?练数??��?�有�?��?�和mask?�，?�以要??
         for i in range(n):
             img = os.path.join(root, "%05d.png" % i)  # liver is %03d
             mask = os.path.join(root, "%05d_mask.png" % i)
@@ -183,8 +190,7 @@ class dsb2018CellDataset(data.Dataset):
         if self.state == 'val':
             return self.val_img_paths,self.val_mask_paths
         if self.state == 'test':
-            return self.val_img_paths,self.val_mask_paths  #因数据集没有测试集，所以用验证集代替
-
+            return self.val_img_paths,self.val_mask_paths  #?�数??��没有测试?�，?�以用验证?�代??
     def __getitem__(self, index):
         pic_path = self.pics[index]
         mask_path = self.masks[index]
