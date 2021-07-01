@@ -8,7 +8,62 @@ from skimage.io import imread
 import cv2
 from glob import glob
 import imageio
+from torchvision import transforms
 
+
+class DaconDataset(data.Dataset):
+    def __init__(self, state, transform=None, target_trasnform=None):
+        self.state = state
+        self.train_img_root = "/data1/dacon/data/train_input_img_256"
+        self.train_label_root = "/data1/dacon/data/train_label_img_256"
+
+        self.val_img_root = "/data1/dacon/data/val_input_img_256"
+        self.val_label_root = "/data1/dacon/data/val_label_img_256"
+
+        self.imgs, self.labels = self.getDataPath()
+        self.transform = transform
+        self.target_transform = target_trasnform
+        self.base_transform = transforms.Compose([
+            transforms.ToTensor()
+        ])
+
+    def getDataPath(self):
+        assert self.state =='train' or self.state == 'val' or self.state =='test'
+
+        imgs = []
+        labels = []
+
+        if self.state == 'train':
+            img_root = self.train_img_root
+            label_root = self.train_label_root
+
+        if self.state == 'val':
+            img_root = self.val_img_root
+            label_root = self.val_label_root
+
+        for name in os.listdir(img_root):
+            img = os.path.join(img_root, "{}.npy".format(name))
+            label = os.path.join(label_root, "{}.npy".format(name))
+
+            imgs.append(img)
+            labels.append(label)
+
+        return imgs, labels
+
+    def __len__(self):
+        return len(self.imgs)
+
+    def __getitem__(self, idx):
+        pic_path = self.imgs[idx]
+        label_path = self.labels[idx]
+
+        img = Image.fromarray(np.load(pic_path))
+        label = Image.fromarray(np.load(label_path))
+
+        img = self.transform(img) if not self.transform else self.base_transform(img)
+        label = self.target_transform(label) if not self.target_transform else self.base_transform(label)
+
+        return img, label
 
 
 class LiverDataset(data.Dataset):

@@ -51,28 +51,28 @@ def getLog(args):
 
 def getModel(args):
     if args.arch == 'UNet':
-        model = Unet(3, 1).to(device)
+        model = Unet(3, 3).to(device)
     if args.arch == 'resnet34_unet':
-        model = resnet34_unet(1,pretrained=False).to(device)
+        model = resnet34_unet(3,pretrained=False).to(device)
     if args.arch == 'unet++':
         args.deepsupervision = True
-        model = NestedUNet(args,3,1).to(device)
+        model = NestedUNet(args,3,3).to(device)
     if args.arch =='Attention_UNet':
-        model = AttU_Net(3,1).to(device)
+        model = AttU_Net(3,3).to(device)
     if args.arch == 'segnet':
-        model = SegNet(3,1).to(device)
+        model = SegNet(3,3).to(device)
     if args.arch == 'r2unet':
-        model = R2U_Net(3,1).to(device)
+        model = R2U_Net(3,3).to(device)
     # if args.arch == 'fcn32s':
     #     model = get_fcn32s(1).to(device)
     if args.arch == 'myChannelUnet':
-        model = myChannelUnet(3,1).to(device)
+        model = myChannelUnet(3,3).to(device)
     if args.arch == 'fcn8s':
         assert args.dataset !='esophagus' ,"fcn8s模型不能用于数据集esophagus，因为esophagus数据集为80x80，经过5次的2倍降采样后剩下2.5x2.5，分辨率不能为小数，建议把数据集resize成更高的分辨率再用于fcn"
-        model = get_fcn8s(1).to(device)
+        model = get_fcn8s(3).to(device)
     if args.arch == 'cenet':
         from cenet import CE_Net_
-        model = CE_Net_().to(device)
+        model = CE_Net_(3).to(device)
     return model
 
 def getDataset(args):
@@ -123,6 +123,11 @@ def getDataset(args):
         val_dataloaders = DataLoader(val_dataset, batch_size=1)
         test_dataset = LungKaggleDataset(r"test", transform=x_transforms, target_transform=y_transforms)
         test_dataloaders = DataLoader(test_dataset, batch_size=1)
+
+    if args.dataset == 'dacon':
+        train_dataset = DaconDataset('train')
+        val_dataset = DaconDataset('val')
+        test_dataset = DaconDataset('val')
     return train_dataloaders,val_dataloaders,test_dataloaders
 
 def val(model,best_iou,val_dataloaders):
