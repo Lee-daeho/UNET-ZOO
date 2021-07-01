@@ -1,3 +1,6 @@
 #folder
 __pyahce__/
+saved_model/
+saved_predict/
 
+*.pth

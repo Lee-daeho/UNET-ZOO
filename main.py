@@ -6,6 +6,7 @@ import argparse
 import logging
 import torch
 import matplotlib.pyplot as plt
+import math
 from torch.utils.data import DataLoader
 from torch import autograd, optim
 from UNet import Unet,resnet34_unet
@@ -134,6 +135,14 @@ def getDataset(args):
         
     return train_dataloaders,val_dataloaders,test_dataloaders
 
+def rmse_score(true, pred):
+    score = math.sqrt(np.mean((true-pred)**2))
+    return score
+
+def psnr_score(true, pred, pixel_max):
+    score = 20*np.log10(pixel_max/rmse_score(true, pred))
+    return score
+
 def val(model,best_iou,val_dataloaders):
     model= model.eval()
     with torch.no_grad():
@@ -209,8 +218,8 @@ def train(model, criterion, optimizer, train_dataloader,val_dataloader, args):
                 optimizer.step()
                 epoch_loss += loss.item()
 
-            print("%d/%d,train_loss:%0.3f" % (step, (dt_size - 1) // train_dataloader.batch_size + 1, loss.item()))
-            logging.info("%d/%d,train_loss:%0.3f" % (step, (dt_size - 1) // train_dataloader.batch_size + 1, loss.item()))
+            print("%d/%d,train_loss:%0.3f, psnr : %0.4f" % (step, (dt_size - 1) // train_dataloader.batch_size + 1, loss.item(), psnr_score(x.float().detach().numpy()*255.0, y.float().detach().numpy()*255.0, 255)))
+            logging.info("%d/%d,train_loss:%0.3f, psnr : %0.4f" % (step, (dt_size - 1) // train_dataloader.batch_size + 1, loss.item(), psnr_score(x.float().detach().numpy()*255.0, y.float().detach().numpy()*255.0, 255)))
         loss_list.append(epoch_loss)
 
         best_iou,aver_iou,aver_dice,aver_hd = val(model,best_iou,val_dataloader)
