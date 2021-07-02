@@ -150,32 +150,37 @@ def val(model,best_iou,val_dataloaders):
         miou_total = 0
         hd_total = 0
         dice_total = 0
+        score_total = 0
         num = len(val_dataloaders)  
-        for x, _,pic,mask in val_dataloaders:
+        for x, label,pic,mask in val_dataloaders:
             x = x.to(device)
             y = model(x)
             if args.deepsupervision:
                 img_y = torch.squeeze(y[-1]).cpu().numpy()
             else:
                 img_y = torch.squeeze(y).cpu().numpy()  
-
-            hd_total += get_hd(mask[0], img_y)
-            miou_total += get_iou(mask[0],img_y) 
-            dice_total += get_dice(mask[0],img_y)
+            
+            score = psnr_score(img_y*255.0,label.float().detach().cpu().numpy()*255.0, 255)
+            score_total += score
+            #hd_total += get_hd(mask[0], img_y)
+            #miou_total += get_iou(mask[0],img_y) 
+            #dice_total += get_dice(mask[0],img_y)
             if i < num:i+=1  
-        aver_iou = miou_total / num
-        aver_hd = hd_total / num
-        aver_dice = dice_total/num
-        print('Miou=%f,aver_hd=%f,aver_dice=%f' % (aver_iou,aver_hd,aver_dice))
-        logging.info('Miou=%f,aver_hd=%f,aver_dice=%f' % (aver_iou,aver_hd,aver_dice))
-        if aver_iou > best_iou:
-            print('aver_iou:{} > best_iou:{}'.format(aver_iou,best_iou))
-            logging.info('aver_iou:{} > best_iou:{}'.format(aver_iou,best_iou))
-            logging.info('===========>save best model!')
-            best_iou = aver_iou
-            print('===========>save best model!')
-            torch.save(model.state_dict(), r'./saved_model/'+str(args.arch)+'_'+str(args.batch_size)+'_'+str(args.dataset)+'_'+str(args.epoch)+'.pth')
-        return best_iou,aver_iou,aver_dice,aver_hd
+        #aver_iou = miou_total / num
+        #aver_hd = hd_total / num
+        #aver_dice = dice_total/num
+        aver_psnr = score_total/num
+        #print('Miou=%f,aver_hd=%f,aver_dice=%f' % (aver_iou,aver_hd,aver_dice))
+        print('psnr score=%f' % (aver_psnr))
+        logging.info('psnr score = %f' % (aver_psnr))
+        #if aver_iou > best_iou:
+        #    print('aver_iou:{} > best_iou:{}'.format(aver_iou,best_iou))
+        #    logging.info('aver_iou:{} > best_iou:{}'.format(aver_iou,best_iou))
+        #    logging.info('===========>save best model!')
+        #    best_iou = aver_iou
+        #    print('===========>save best model!')
+        #    torch.save(model.state_dict(), r'./saved_model/'+str(args.arch)+'_'+str(args.batch_size)+'_'+str(args.dataset)+'_'+str(args.epoch)+'.pth')
+        return aver_psnr
 
 def train(model, criterion, optimizer, train_dataloader,val_dataloader, args):
     best_iou,aver_iou,aver_dice,aver_hd = 0,0,0,0
@@ -185,6 +190,7 @@ def train(model, criterion, optimizer, train_dataloader,val_dataloader, args):
     iou_list = []
     dice_list = []
     hd_list = []
+    psnr_list = []
     for epoch in range(num_epochs):
         model = model.train()
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
@@ -222,15 +228,19 @@ def train(model, criterion, optimizer, train_dataloader,val_dataloader, args):
             logging.info("%d/%d,train_loss:%0.3f, psnr : %0.4f" % (step, (dt_size - 1) // train_dataloader.batch_size + 1, loss.item(), psnr_score(x.float().detach().numpy()*255.0, y.float().detach().numpy()*255.0, 255)))
         loss_list.append(epoch_loss)
 
-        best_iou,aver_iou,aver_dice,aver_hd = val(model,best_iou,val_dataloader)
-        iou_list.append(aver_iou)
-        dice_list.append(aver_dice)
-        hd_list.append(aver_hd)
+        #best_iou,aver_iou,aver_dice,aver_hd = val(model,best_iou,val_dataloader)
+        aver_psnr = val(model,best_iou,val_dataloader)
+        #iou_list.append(aver_iou)
+        #dice_list.append(aver_dice)
+        #hd_list.append(aver_hd)
+        psnr_list.append(aver_psnr)
         print("epoch %d loss:%0.3f" % (epoch, epoch_loss))
         logging.info("epoch %d loss:%0.3f" % (epoch, epoch_loss))
+        torch.save(model.state_dict(), './saved_model/'+str(args.arch)+'_'+str(args.batch_size)+'_'+str(args.dataset)+'_'+str(epoch)+'.pth')
     loss_plot(args, loss_list)
-    metrics_plot(args, 'iou&dice',iou_list, dice_list)
-    metrics_plot(args,'hd',hd_list)
+    #metrics_plot(args, 'iou&dice',iou_list, dice_list)
+    #metrics_plot(args,'hd',hd_list)
+    metrics_plot(args, 'psnr', psnr_list)
     return model
 
 def test(val_dataloaders,save_predict=False):

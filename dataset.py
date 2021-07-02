@@ -14,11 +14,11 @@ from torchvision import transforms
 class DaconDataset(data.Dataset):
     def __init__(self, state, transform=None, target_trasnform=None):
         self.state = state
-        self.train_img_root = "/home/dacon/data/train_input_img_256"
-        self.train_label_root = "/home/dacon/data/train_label_img_256"
+        self.train_img_root = "/home/dacon/data/100_train_input_img_256"
+        self.train_label_root = "/home/dacon/data/100_train_label_img_256"
 
-        self.val_img_root = "/home/dacon/data/val_input_img_256"
-        self.val_label_root = "/home/dacon/data/val_label_img_256"
+        self.val_img_root = "/home/dacon/data/100_val_input_img_256"
+        self.val_label_root = "/home/dacon/data/100_val_label_img_256"
 
         self.imgs, self.labels = self.getDataPath()
         self.transform = transform
